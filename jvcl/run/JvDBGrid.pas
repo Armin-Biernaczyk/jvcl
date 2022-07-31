@@ -3797,8 +3797,7 @@ end;
 procedure TJvDBGrid.DrawColumnCell(const Rect: TRect; DataCol: Integer;
   Column: TColumn; State: TGridDrawState);
 var
-  DstX, DstY, BW,BH: Integer;
-  I: Integer;
+  I, DstX, DstY, BW, BH: Integer;
   NewBackgrnd: TColor;
   Highlight: Boolean;
   Bmp: TBitmap;
@@ -3846,12 +3845,15 @@ begin
         DrawThemedHighlighting(Canvas, Rect)
       else
         Canvas.FillRect(Rect);
+// Armin 31.07.2022 Scale Bitmap for HighDPI-Displays
       BW := MulDiv(Bmp.Width, PixelsPerInch, 96);
       BH := MulDiv(Bmp.Height, PixelsPerInch, 96);
       DstX := (Rect.Left + Rect.Right + 1 - BW) div 2;
       DstY := (Rect.Top + Rect.Bottom + 1 - BH) div 2;
       StretchBitmapRectTransparent(Canvas, DstX, DstY, BW, BH,
         TRect.Create(0,0,Bmp.Width, Bmp.Height), Bmp, clOlive);
+//      DrawBitmapTransparent(Canvas, (Rect.Left + Rect.Right + 1 - Bmp.Width) div 2,
+//        (Rect.Top + Rect.Bottom + 1 - Bmp.Height) div 2, Bmp, clOlive);
     end
     else
     begin
